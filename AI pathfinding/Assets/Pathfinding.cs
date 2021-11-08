@@ -33,4 +33,6 @@ public class Pathfinding : MonoBehaviour
         nav.destination = points[destPoint].position;
         destPoint = (destPoint + 1) % points.Length;
     }
+
+
 }
