@@ -6,6 +6,7 @@ public class PlayerScripts : MonoBehaviour
 {
     public GameObject ballSpawn;
     public GameObject BallPrefab;
+    public Rigidbody Ballrb;
     Animator anim;
 
 
@@ -35,7 +36,8 @@ public class PlayerScripts : MonoBehaviour
     }
     public void ReleaseBall()
     {
-        BallPrefab.useGravity(true);
+        Ballrb.useGravity = true;
+        Ballrb.AddForce(0,0.5,5);
     }
 
     public void CreateBall()
