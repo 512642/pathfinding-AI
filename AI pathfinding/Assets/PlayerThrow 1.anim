@@ -17243,7 +17243,7 @@ AnimationClip:
     intParameter: 0
     messageOptions: 0
   - time: 0.625
-    functionName: 
+    functionName: ReleaseBall
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

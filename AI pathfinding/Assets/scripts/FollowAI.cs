@@ -5,12 +5,13 @@ using UnityEngine;
 public class FollowAI : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject robot;
+    public GameObject player;
     public Vector3 offset;
 
     // Update is called once per frame
     void Update()
     {
-        transform.position = robot.transform.position + offset;
+        transform.position = player.transform.position + offset;
+        transform.rotation = player.transform.rotation;
     }
 }
