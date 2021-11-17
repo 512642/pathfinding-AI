@@ -8,6 +8,7 @@ public class PlayerScripts : MonoBehaviour
     public GameObject BallPrefab;
     public Rigidbody playerrb;
     public Rigidbody Ballrb;
+    public Vector2 turn;
     GameObject ballInstance;
     Animator anim;
 
@@ -19,38 +20,58 @@ public class PlayerScripts : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {        
+        mouseLook();
         Running();
         Throw();
     }
+        void mouseLook()
+    {
+        turn.x += Input.GetAxis("Mouse X");        
+        transform.localRotation = Quaternion.Euler(-turn.y, turn.x, 0);
+        
+    }
+
+
+
 
     void Running()
     {
-        float xv = 0.5f;
-        float zv = 0.5f;
+        float fv = 10;
+        float sv = 10;
+        int speedCap = 5;
 
-        if(Input.GetKeyDown("w"))
+        anim.SetBool("run",false);
+
+        if(Input.GetKey("w"))
         {
-            playerrb.velocity = new Vector3(xv, 0, 0);
+            playerrb.AddForce(transform.forward * fv);
+            anim.SetBool("run",true);
         }
 
 
-        if (Input.GetKeyDown("s"))
+        if (Input.GetKey("s"))
         {
-           playerrb.velocity = new Vector3(-xv, 0, 0);
+           playerrb.AddForce(transform.forward * -fv);
+           anim.SetBool("run",true);
         }
 
 
-        if (Input.GetKeyDown("a"))
+        if (Input.GetKey("a"))
         {
-            playerrb.velocity = new Vector3(0, 0, -zv);
+            playerrb.AddForce(transform.right * -sv);
+            anim.SetBool("run",true);
         }
 
 
-        if (Input.GetKeyDown("d"))
+        if (Input.GetKey("d"))
         {
-            playerrb.velocity = new Vector3(0, 0, zv);
+            playerrb.AddForce(transform.right * sv);
+            anim.SetBool("run",true);
         }
+ 
+
+        playerrb.velocity = Vector3.ClampMagnitude(playerrb.velocity, speedCap);
     }
 
 
@@ -62,22 +83,24 @@ public class PlayerScripts : MonoBehaviour
     {
         if(Input.GetKeyDown("x"))
         {
-            anim.SetBool("IsThrowing", true);
+            anim.SetBool("throw", true);
         }
         else
         {
-            anim.SetBool("IsThrowing", false);
+            anim.SetBool("throw", false);
         }
 
     }
     public void ReleaseBall()
     {
         print("throw");
-        ballInstance.GetComponent<Rigidbody>().AddForce(0, 10, 20);
+        
     }
 
     public void CreateBall()
     { 
-        ballInstance = Instantiate(BallPrefab, ballSpawn.transform.position, ballSpawn.transform.rotation) as GameObject;     
+        ballInstance = Instantiate(BallPrefab, ballSpawn.transform.position, transform.rotation) as GameObject;     
+        ballInstance.GetComponent<Rigidbody>().AddForce(transform.forward*10, ForceMode.Impulse);
+        ballInstance.GetComponent<Rigidbody>().AddForce(transform.up*5, ForceMode.Impulse);
     }
 }
