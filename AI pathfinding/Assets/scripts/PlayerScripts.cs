@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerScripts : MonoBehaviour
 {
+    public GameObject fakeBall;
     public GameObject ballSpawn;
     public GameObject BallPrefab;
     public Rigidbody playerrb;
@@ -37,8 +38,8 @@ public class PlayerScripts : MonoBehaviour
 
     void Running()
     {
-        float fv = 10;
-        float sv = 10;
+        float fv = 20;
+        float sv = 20;
         int speedCap = 5;
 
         anim.SetBool("run",false);
@@ -91,14 +92,11 @@ public class PlayerScripts : MonoBehaviour
         }
 
     }
-    public void ReleaseBall()
-    {
-        print("throw");
-        
-    }
 
-    public void CreateBall()
-    { 
+
+    public void ThrowBall()
+    {
+        fakeBall.SetActive(false);
         ballInstance = Instantiate(BallPrefab, ballSpawn.transform.position, transform.rotation) as GameObject;     
         ballInstance.GetComponent<Rigidbody>().AddForce(transform.forward*10, ForceMode.Impulse);
         ballInstance.GetComponent<Rigidbody>().AddForce(transform.up*5, ForceMode.Impulse);
